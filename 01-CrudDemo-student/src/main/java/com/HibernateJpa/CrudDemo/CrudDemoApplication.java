@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 @SpringBootApplication
 public class CrudDemoApplication {
 
@@ -26,12 +28,88 @@ public class CrudDemoApplication {
 	public CommandLineRunner commandLineRunner(StudentDAO studentDAO) {
 		return runner -> {
 
+			// create object
 	//		createStudent(studentDAO);
 
-	//		createMultipeStudents(studentDAO);
+			createMultipleStudents(studentDAO);
 
-			readStudent(studentDAO);
+			// read object
+	//		readStudent(studentDAO);
+
+			// retrieve Student object list
+	//		queryForStudents(studentDAO);
+
+	//		queryForStudentsByLastName(studentDAO);
+
+			// update an object
+	//		updateStudent(studentDAO);
+
+			// delete an object
+	//		deleteStudent(studentDAO);
+
+			// deleting all objects
+	//		deleteAllStudents(studentDAO);
+
 		};
+	}
+
+	private void deleteAllStudents(StudentDAO studentDAO) {
+
+		System.out.println("Deleting all students");
+		int numRowsDeleted = studentDAO.deleteAll();
+		System.out.println("Deleted row count: " +  numRowsDeleted);
+	}
+
+	private void deleteStudent(StudentDAO studentDAO) {
+
+		int studentId = 3;
+		System.out.println("Deleting student id: " + studentId);
+		studentDAO.delete(studentId);
+	}
+
+	private void updateStudent(StudentDAO studentDAO) {
+
+		// retrieve student based on the id: primary Key
+		int studentId = 1;
+		System.out.println("Getting student with id: " + studentId);
+		Student myStudent = studentDAO.findById(studentId);
+
+		// change first name
+		System.out.println("Updating student ...");
+	//	myStudent.setFirstName("Scooby");
+		myStudent.setFirstName("John");
+
+
+		// update the student
+		studentDAO.update(myStudent);
+
+		// display the updated student
+		System.out.println("Updated student: " + myStudent);
+
+	}
+
+	private void queryForStudentsByLastName(StudentDAO studentDAO) {
+
+		// get a list of students
+		List<Student> theStudents = studentDAO.findByLastName("Bhat");
+
+		// display list of students
+		for(Student tempStudent: theStudents) {
+			System.out.println(tempStudent);
+		}
+	}
+
+	private void queryForStudents(StudentDAO studentDAO) {
+
+		// get a list of students
+		List<Student> theStudents = studentDAO.findAll();
+
+		// display a list of students
+		for(Student tempStudent: theStudents) {
+			System.out.println(tempStudent);
+		}
+
+
 	}
 
 	private void readStudent(StudentDAO studentDAO) {
@@ -57,7 +135,7 @@ public class CrudDemoApplication {
 
 	}
 
-	private void createMultipeStudents(StudentDAO studentDAO) {
+	private void createMultipleStudents(StudentDAO studentDAO) {
 
 		// create multiple students
 		System.out.println("Creating new student object ... ");
